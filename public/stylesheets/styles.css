@@ -4,6 +4,16 @@ body {
   background-color: #E6FFFF;
 }
 
+
+h1 a{
+    color:#126ABB;
+    font-weight: bold;
+}
+h1 a:hover{
+    text-decoration: none;
+    color:#126ABB;
+}
+
 .welcome {
     
     margin-top:50px;
