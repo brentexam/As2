@@ -4,7 +4,10 @@ var mongoose = require('mongoose');
 // define the product model (fields and data types)
 var BuisnessSchema = new mongoose.Schema({
     company: String,
+    description: String,
     category: String,
+    address: String,
+    owner: String,
     number: String
 });
 

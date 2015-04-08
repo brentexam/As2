@@ -1,4 +1,4 @@
-﻿// list dependencies
+// list dependencies
 var express = require('express');
 var router = express.Router();
 
@@ -6,29 +6,29 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Buisness = require('../models/buisness');
 
-// interpret GET /products - show product listing */
+// Show the companies
 router.get('/companys', function (req, res, next) {
 
-    // retrieve all products using the product model; returns either an error or list of products
+    // Gets all the companies in the buisness model, if not there will be an error
     Buisness.find(function (err, companys) {
-        // if we have an error
+        // if there is an error
         if (err) {
             res.render('error', { error: err });
         }
         else {
-            // no error, show the views/products.jade and pass the query results to that view
+            // Else if there is no error show the companys view, with the information
             res.render('companys', { companys: companys });
             console.log(companys);
         }
     });
 });
 
-// GET intepret GET /products/edit/:id - show single product edit form */
+// Edit a single companies information by retrieving its id
 router.get('/companys/edit/:id', function (req, res, next) {
     //store the id from the url in a variable
     var id = req.params.id;
 
-    //use the product model to look up the product with this id    
+    //use the buisness model to look up the company with this id    
     Buisness.findById(id, function (err, buisness) {
         if (err) {
             res.send('Buisness ' + id + ' not found');
@@ -39,14 +39,17 @@ router.get('/companys/edit/:id', function (req, res, next) {
     });
 });
 
-// POST /products/edit/:id - update selected product */
+// Update the selected companies information
 router.post('/companys/edit/:id', function (req, res, next) {
     var id = req.body.id;
 
     var buisness = {
         _id: req.body.id,
         company: req.body.company,
+        description: req.body.description,
         category: req.body.category,
+        address: req.body.address,
+        owner: req.body.owner,
         number: req.body.number
     };
 
@@ -62,18 +65,21 @@ router.post('/companys/edit/:id', function (req, res, next) {
     });
 });
 
-// GET /products/add - show product input form
+// Retrieve the company add page to give the add form to add a company
 router.get('/companys/add', function (req, res, next) {
     res.render('add');
 });
 
-// POST /products/add - save new product
+// Add the company
 router.post('/companys/add', function (req, res, next) {
 
-    // use the Product model to insert a new product
+    // use the buisness model to insert the new business
     Buisness.create({
         company: req.body.company,
+        description: req.body.description,
         category: req.body.category,
+        address: req.body.address,
+        owner: req.body.owner,
         number: req.body.number
     }, function (err, Buisness) {
         if (err) {
@@ -87,7 +93,7 @@ router.post('/companys/add', function (req, res, next) {
     });
 });
 
-// API GET products request handler
+// API to get all the companies listed
 router.get('/api/companys', function (req, res, next) {
     Buisness.find(function (err, companys) {
         if (err) {
@@ -100,11 +106,34 @@ router.get('/api/companys', function (req, res, next) {
 });
 
 // API to GET individual buisness' based on their given id
+router.get('/api/companys/:id', function (req, res, next) {
+    //Get the id from the url and put it into a variable and make a variable to store the companies information
+    var id = req.params.id;
+    var buisness = {
+        company: req.body.company,
+        description: req.body.description,
+        category: req.body.category,
+        address: req.body.address,
+        owner: req.body.owner,
+        number: req.body.number
+    };
+    //use the buisness model to look up the company with this id, and displays its information 
+    Buisness.findById(id, function (err, buisness) {
+        if (err) {
+            res.send('Buisness ' + id + ' not found');
+        }
+        else {
+            res.send({buisness:buisness});
+        }
+    });
+});
+
+// API to GET individual buisness' based on their given id
 router.get('/companys/indiv/:id', function (req, res, next) {
     //store the id from the url in a variable
     var id = req.params.id;
 
-    //use the product model to look up the product with this id    
+    //use the buisness model to look up the company with this id
     Buisness.findById(id, function (err, buisness) {
         if (err) {
             res.send('Buisness ' + id + ' not found');
@@ -115,12 +144,12 @@ router.get('/companys/indiv/:id', function (req, res, next) {
     });
 });
   
-/* GET product delete request - : indicates id is a variable */    
+// Delete the business based on its id   
 router.get('/companys/delete/:id', function (req, res, next) {
     //store the id from the url into a variable
     var id = req.params.id;
 
-    //use our product model to delete
+    //use the buisness model to delete the company.
     Buisness.remove({ _id: id }, function (err, buisness) {
         if (err) {
             res.send('Buisness ' + id + ' not found');

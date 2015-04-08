@@ -1,6 +1,22 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #E6FFFF;
+}
+
+h1.welcome{
+    font-weight: bold;
+}
+
+p.welcome{
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.welcome {
+    color: white;
+    background: blue;
+    border: red solid 1px;
 }
 
 header{

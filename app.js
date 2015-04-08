@@ -10,7 +10,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-// db 
+// Linking to database hosted on Mongolab using mongoose and mongodb
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://user:admin@ds061651.mongolab.com:61651/buisness');//mongodb://<dbuser>:<dbpassword>@ds061651.mongolab.com:61651/buisness
 
